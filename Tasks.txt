@@ -1,0 +1,3 @@
+1.  complete the image edge detection algorithm using C++.
+2.  complete the classification algorithm by any dataset downloaded on the internet using artificial neural network via any languages  （Best both using TensorFlow and PyTorch）
+3.  complete the moving object detection by any video dataset download on the internet ( Python has to be used)
