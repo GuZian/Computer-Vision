@@ -2,7 +2,7 @@
 	edge detecion.cpp
 
 	This demo is used to detect the edge of image.
-	The algorithm is based on Sobel operator.
+	The algorithm is based on Sobel operator and scharr operator.
 	I just used the package of Opencv to decode the image(read the image and convert it to matrix) and do some morphological processing.The principle of Sobel is coded by myself.
 
 	by Zian Gu
