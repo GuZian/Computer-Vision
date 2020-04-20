@@ -18,43 +18,58 @@ void imgShow(const String& imgName, InputArray img);
 
 int main(int argc, char** argv) {
 
-	Mat image = imread("C:\\Users\\gu573\\Documents\\GitHub\\Computer Vision\\img\\Jani2.jpg", 0);//¶ÁÈ¡Í¼Ïñ£¬×¢Òâ\\±íÊ¾\µÄ×ªÒå
+	Mat image = imread("C:\\Users\\gu573\\Documents\\GitHub\\Computer Vision\\img\\Jani2.jpg", 0);//è¯»å–å›¾åƒï¼Œæ³¨æ„\\è¡¨ç¤º\çš„è½¬ä¹‰
 	if (image.empty())
 	{
 
 		printf("Could not load image...\n");
 		return -1;
 	}
-	Mat imageS;//ËõĞ¡ºóµÄÍ¼Ïñ
+	Mat imageS;//ç¼©å°åçš„å›¾åƒ
 	Mat imageConverted;
-	Mat imageS_Blur;//Í¨¹ıÖĞÖµÂË²¨ºóµÄÍ¼Ïñ
-	Mat imageSobelx, imageSobely;//x,y·½ÏòÊ¹ÓÃSobelËã×Ó¾í»ıËùµÃµÄÍ¼Ïñ
-	Mat imageSobelxAbs, imageSobelyAbs;//x,y·½ÏòÊ¹ÓÃSobelËã×Ó¾í»ıËùµÃµÄÍ¼Ïñ²¢È¡¾ø¶ÔÖµ
-	Mat imageSobel;//×îÖÕÍ¨¹ıSobelËã×Ó¼ì²âµÄ±ßÔµÍ¼Ïñ
-	Mat Gx = (Mat_<int>(3, 3) <<// SobelËã×Óºá£¨x£©Ïò´¦ÀíµÄ¾í»ıºË
+	Mat imageS_Blur;//é€šè¿‡ä¸­å€¼æ»¤æ³¢åçš„å›¾åƒ
+	Mat imageSobelx, imageSobely;//x,yæ–¹å‘ä½¿ç”¨Sobelç®—å­å·ç§¯æ‰€å¾—çš„å›¾åƒ
+	Mat imageSobelxAbs, imageSobelyAbs;//x,yæ–¹å‘ä½¿ç”¨Sobelç®—å­å·ç§¯æ‰€å¾—çš„å›¾åƒå¹¶å–ç»å¯¹å€¼
+	Mat imageSobel;//æœ€ç»ˆé€šè¿‡Sobelç®—å­æ£€æµ‹çš„è¾¹ç¼˜å›¾åƒ
+
+	//Mat Gx = (Mat_<int>(3, 3) <<// Scharrç®—å­æ¨ªï¼ˆxï¼‰å‘å¤„ç†çš„å·ç§¯æ ¸
+	//	-3, 0, 3,
+	//	-10, 0, 10,
+	//	-3, 0, 3);
+	//Mat Gy = (Mat_<int>(3, 3) <<// Scharrç®—å­çºµï¼ˆyï¼‰å‘å¤„ç†çš„å·ç§¯æ ¸
+	//	-3, -10, -3,
+	//	0, 0, 0,
+	//	3, 10, 3);
+
+	Mat Gx = (Mat_<int>(3, 3) <<// Sobelç®—å­æ¨ªï¼ˆxï¼‰å‘å¤„ç†çš„å·ç§¯æ ¸
 		-1, 0, 1,
 		-2, 0, 2,
 		-1, 0, 1);
-	Mat Gy = (Mat_<int>(3, 3) <<// SobelËã×Ó×İ£¨y£©Ïò´¦ÀíµÄ¾í»ıºË
+	Mat Gy = (Mat_<int>(3, 3) <<// Sobelç®—å­çºµï¼ˆyï¼‰å‘å¤„ç†çš„å·ç§¯æ ¸
 		-1, -2, -1,
 		0, 0, 0,
 		1, 2, 1);
+
+
 	//cout << Gx << endl
 	//	<< Gy << endl;
 
-	resize(image, imageS, imageS.size(), 0.16, 0.2, 1);//¸Ä±äÍ¼Ïñ´óĞ¡£¬ÒÔÍêÕûÏÔÊ¾
-	medianBlur(imageS, imageS_Blur, 5);//¶ÔÍ¼Ïñ½øĞĞÖĞÖµÂË²¨£¬·ñÔòÔëÉùÌ«´óĞ§¹û²»ºÃ(Ò²¿ÉÒÔÓÃ¸ßË¹ÂË²¨µÈµÈ³¢ÊÔÒ»ÏÂÄÄ¸öĞ§¹û¸üºÃ£¬ÔÚÕâÀïÔİÊ±Ê¹ÓÃÖĞÖµÂË²¨)¡£¾­ÊµÑé¾í»ıºËÔ½´ó£¬Ğ§¹ûÔ½ºÃ£¬È¡Öµ·¶Î§1-5¡£
-	filter2D(imageS_Blur,imageSobelx,CV_64F,Gx);//x·½Ïò¾í»ı
-	convertScaleAbs(imageSobelx, imageSobelxAbs);//ĞèÒªÈ¡¾ø¶ÔÖµ£¬·ñÔò¾í»ıËùµÃ¸ºÖµÔÚÏÔÊ¾µÄÊ±ºòÄ¬ÈÏÎª0£¬½«ËğÊ§±ß½ç
-	filter2D(imageS_Blur, imageSobely, CV_64F, Gy);//y·½Ïò¾í»ı
-	convertScaleAbs(imageSobely, imageSobelyAbs);//Í¬Àí
-	addWeighted(imageSobelxAbs, 0.5, imageSobelyAbs, 0.5, 0, imageSobel);//°´È¨ÖØ½«Á½¸ö·½Ïò¾í»ıËùµÃÍ¼ÏñÈÚºÏ
+	resize(image, imageS, imageS.size(), 0.16, 0.2, 1);//æ”¹å˜å›¾åƒå¤§å°ï¼Œä»¥å®Œæ•´æ˜¾ç¤º
+
+	//medianBlur(imageS, imageS_Blur, 5);//å¯¹å›¾åƒè¿›è¡Œä¸­å€¼æ»¤æ³¢ï¼Œå¦åˆ™å™ªå£°å¤ªå¤§æ•ˆæœä¸å¥½(ä¹Ÿå¯ä»¥ç”¨é«˜æ–¯æ»¤æ³¢ç­‰ç­‰å°è¯•ä¸€ä¸‹å“ªä¸ªæ•ˆæœæ›´å¥½ï¼Œåœ¨è¿™é‡Œæš‚æ—¶ä½¿ç”¨ä¸­å€¼æ»¤æ³¢)ã€‚ç»å®éªŒå·ç§¯æ ¸è¶Šå¤§ï¼Œæ•ˆæœè¶Šå¥½ï¼Œå–å€¼èŒƒå›´1-5ã€‚
+	GaussianBlur(imageS,imageS_Blur,Size(5,5),0);//å¯¹å›¾åƒè¿›è¡Œé«˜æ–¯æ»¤æ³¢ã€‚åŸç†åŒä¸Šã€‚
+
+	filter2D(imageS_Blur,imageSobelx,CV_64F,Gx);//xæ–¹å‘å·ç§¯
+	convertScaleAbs(imageSobelx, imageSobelxAbs);//éœ€è¦å–ç»å¯¹å€¼ï¼Œå¦åˆ™å·ç§¯æ‰€å¾—è´Ÿå€¼åœ¨æ˜¾ç¤ºçš„æ—¶å€™é»˜è®¤ä¸º0ï¼Œå°†æŸå¤±è¾¹ç•Œ
+	filter2D(imageS_Blur, imageSobely, CV_64F, Gy);//yæ–¹å‘å·ç§¯
+	convertScaleAbs(imageSobely, imageSobelyAbs);//åŒç†
+	addWeighted(imageSobelxAbs, 0.5, imageSobelyAbs, 0.5, 0, imageSobel);//æŒ‰æƒé‡å°†ä¸¤ä¸ªæ–¹å‘å·ç§¯æ‰€å¾—å›¾åƒèåˆ
 	//cout << imageS.size();
-	imgShow("Jani", imageSobel);//Êä³ö×îÖÕ½á¹û
+	imgShow("Jani", imageSobel);//è¾“å‡ºæœ€ç»ˆç»“æœ
 	return 0;
 
 }
-//ÏÔÊ¾Í¼Ïñ
+//æ˜¾ç¤ºå›¾åƒ
 void imgShow(const String& imgName, InputArray img)
 {
 	imshow(imgName, img);
