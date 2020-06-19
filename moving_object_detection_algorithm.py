@@ -24,7 +24,7 @@ while True:
     ret, thresh = cv2.threshold(gray,5,255,cv2.THRESH_BINARY) #对叠加后的灰度图进行二值化处理
     thresh = cv2.dilate(thresh, None, iterations=3)#形态学膨胀处理
     contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)#寻找轮廓（第二个返回参数是层级，实际无用处）
-    cv2.drawContours(frame,contours,-1,(0,0,255),-1)#用红色把变化区域轮廓标记出来（填充）
+    #cv2.drawContours(frame,contours,-1,(0,0,255),-1)#用红色把变化区域轮廓标记出来（填充）
     #用绿色的框把大幅度运动的区域框出来
     for c in contours:
         if cv2.contourArea(c) < 2000:#降低干扰
