@@ -27,10 +27,9 @@ while True:
     #cv2.drawContours(frame,contours,-1,(0,0,255),-1)#用红色把变化区域轮廓标记出来（填充）
     #用绿色的框把大幅度运动的区域框出来
     for c in contours:
-        if cv2.contourArea(c) < 2000:#降低干扰
-            continue
-        (x, y, w, h) = cv2.boundingRect(c)#外接最小矩形
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        if cv2.contourArea(c) > 2000:#降低干扰
+            (x, y, w, h) = cv2.boundingRect(c)#外接最小矩形
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     cv2.imshow("Contours", frame)
     cv2.imshow("Gray", gray)
